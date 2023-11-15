@@ -1,0 +1,3 @@
+C:/Users/qRe/CLionProjects/32_ravenstva/cmake-build-debug/CMakeFiles/32_ravenstva.dir
+C:/Users/qRe/CLionProjects/32_ravenstva/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/qRe/CLionProjects/32_ravenstva/cmake-build-debug/CMakeFiles/rebuild_cache.dir
