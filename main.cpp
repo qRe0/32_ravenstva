@@ -31,7 +31,7 @@ public:
         return parent[x] = FindSet(parent[x]);
     }
 
-    void UnionSet(int x, int y) {
+    void Union(int x, int y) {
         int buff_x = FindSet(x);
         int buff_y = FindSet(y);
         if (buff_x == buff_y)
@@ -81,8 +81,8 @@ int main() {
         fscanf(f, "%*c %d", &b[i]);         // ignore "x" and read "2"
 
         if (type[i] == '=') {
-            dsu.UnionSet(b[i], a[i]);
-            dsu.UnionSet(a[i], b[i]);
+            dsu.Union(b[i], a[i]);
+            dsu.Union(a[i], b[i]);
         }
     }
 
