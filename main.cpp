@@ -12,8 +12,9 @@ vector<char> type(100001);
 
 class DSU {
 
-    vector<int> parent;
+private:
     vector<int> dim;
+    vector<int> parent;
 
 public:
 
@@ -31,7 +32,8 @@ public:
     }
 
     void UnionSet(int x, int y) {
-        int buff_x = FindSet(x), buff_y = FindSet(y);
+        int buff_x = FindSet(x);
+        int buff_y = FindSet(y);
         if (buff_x == buff_y)
             return;
         if (dim[buff_x] < dim[buff_y]) {
