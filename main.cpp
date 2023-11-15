@@ -1,21 +1,22 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
+#include <regex>
+#include <string>
 
 using namespace std;
-
-
-// int a[100001], b[100001];
-// char type[100001];
 
 vector<int> a(100001);
 vector<int> b(100001);
 vector<char> type(100001);
 
 class DSU {
+
     vector<int> parent;
     vector<int> dim;
 
 public:
+
     DSU(int n) {
         for (int i = 0; i < n; i++) {
             parent.push_back(i);
@@ -29,57 +30,69 @@ public:
         return parent[x] = FindSet(parent[x]);
     }
 
-    void Union(int x, int y) {
-        int temp_x = FindSet(x), temp_y = FindSet(y);
-        if (temp_x == temp_y)
+    void UnionSet(int x, int y) {
+        int buff_x = FindSet(x), buff_y = FindSet(y);
+        if (buff_x == buff_y)
             return;
-        if (dim[temp_x] < dim[temp_y]) {
-            parent[temp_x] = temp_y;
-            dim[temp_y] += dim[temp_x];
-        }
-        else {
-            parent[temp_y] = temp_x;
-            dim[temp_y] += dim[temp_x];
+        if (dim[buff_x] < dim[buff_y]) {
+            parent[buff_x] = buff_y;
+            dim[buff_y] += dim[buff_x];
+        } else {
+            parent[buff_y] = buff_x;
+            dim[buff_y] += dim[buff_x];
         }
     }
 
     bool isConnected(int x, int y) {
         return FindSet(x) == FindSet(y);
     }
+
+    void processInput(const string &line) {
+        regex pattern(R"(x(\d+)\s*([=!]+)\s*x(\d+))");
+        smatch matches;
+        if (regex_match(line, matches, pattern)) {
+            int x1 = stoi(matches[1]);
+            char op = matches[2].str()[0];
+            int x2 = stoi(matches[3]);
+        }
+    }
+
 };
 
 int main() {
-    FILE* f;
+    FILE *f;
     fopen_s(&f, "equal-not-equal.in", "r");
-    freopen("equal-not-equal.out", "w", stdout);
-
+    ofstream out("equal-not-equal.out", ios_base::out);
+    
+    char bin = ' ';
     int n, m;
+
     fscanf(f, "%d", &n);
     fscanf(f, "%*c%d", &m);
 
-    const char equal = '=';
-    const char some = ' ';
     DSU dsu(n + 2);
+
     for (int i = 0; i < m; i++) {
-        fscanf(f, "\n", some);
+
+        fscanf(f, "\n", bin);
         fscanf(f, "%*c %d", &a[i]);
-        fscanf(f, "%c", &some);
+        fscanf(f, "%c", &bin);
         fscanf(f, "%c ", &type[i]);
-        fscanf(f, "%c", &some);
-        fscanf(f, "%c", &some);
-        fscanf(f, "%c", &some);
+        fscanf(f, "%c", &bin);
+        fscanf(f, "%c", &bin);
+        fscanf(f, "%c", &bin);
         fscanf(f, "%d", &b[i]);
 
-        if (type[i] == equal) {
-            dsu.Union(b[i], a[i]);
-            dsu.Union(a[i], b[i]);
+        if (type[i] == '=') {
+            dsu.UnionSet(b[i], a[i]);
+            dsu.UnionSet(a[i], b[i]);
         }
     }
 
     bool result = true;
     for (int i = 0; i < m; i++) {
 
-        if (type[i] == equal) {
+        if (type[i] == '=') {
             if (!dsu.isConnected(a[i], b[i]) || !dsu.isConnected(b[i], a[i])) {
                 result = false;
                 break;
@@ -92,7 +105,8 @@ int main() {
         }
     }
 
-    cout << (result ? "Yes" : "No") << endl;
+    out << (result ? "Yes" : "No") << endl;
 
+    out.close();
     return 0;
 }
