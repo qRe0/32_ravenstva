@@ -4,8 +4,12 @@
 using namespace std;
 
 
-int a[100001], b[100001];
-char type[100001];
+// int a[100001], b[100001];
+// char type[100001];
+
+vector<int> a(100001);
+vector<int> b(100001);
+vector<char> type(100001);
 
 class DSU {
     vector<int> parent;
