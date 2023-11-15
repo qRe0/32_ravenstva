@@ -63,8 +63,7 @@ int main() {
     FILE *f;
     fopen_s(&f, "equal-not-equal.in", "r");
     ofstream out("equal-not-equal.out", ios_base::out);
-    
-    char bin = ' ';
+
     int n, m;
 
     fscanf(f, "%d", &n);
@@ -74,14 +73,10 @@ int main() {
 
     for (int i = 0; i < m; i++) {
 
-        fscanf(f, "\n", bin);
-        fscanf(f, "%*c %d", &a[i]);
-        fscanf(f, "%c", &bin);
-        fscanf(f, "%c ", &type[i]);
-        fscanf(f, "%c", &bin);
-        fscanf(f, "%c", &bin);
-        fscanf(f, "%c", &bin);
-        fscanf(f, "%d", &b[i]);
+        //Format: x1 == x2
+        fscanf(f, "\n%*c %d%*c", &a[i]);    // ignore "\n" and "x", then read "1" and ignore space
+        fscanf(f, "%c %*c%*c", &type[i]);   // read "=", then ignore second char from expression and space
+        fscanf(f, "%*c %d", &b[i]);         // ignore "x" and read "2"
 
         if (type[i] == '=') {
             dsu.UnionSet(b[i], a[i]);
