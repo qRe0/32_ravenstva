@@ -34,7 +34,7 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/Users/qRe/AppData/Local/Programs/CLion Nova/bin/mingw/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "D:/IDE/JetBrains/apps/CLion/ch-0/232.9921.42/bin/mingw/bin/objdump.exe")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)

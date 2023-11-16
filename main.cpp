@@ -26,14 +26,16 @@ public:
     }
 
     int FindSet(int x) {
-        if (parent[x] == x)
+        if (x == parent[x])
             return x;
-        return parent[x] = FindSet(parent[x]);
+        parent[x] = FindSet(parent[x]);
+        return parent[x];
     }
 
     void Union(int x, int y) {
         int buff_x = FindSet(x);
         int buff_y = FindSet(y);
+
         if (buff_x == buff_y)
             return;
         if (dim[buff_x] < dim[buff_y]) {
@@ -49,36 +51,21 @@ public:
         return FindSet(x) == FindSet(y);
     }
 
-    void parser(string &line) {
-        regex pattern(R"(x(\d+)\s*([=!]+)\s*x(\d+))");
-        smatch matches;
-        if (regex_match(line, matches, pattern)) {
-            int x1 = stoi(matches[1]);
-            char op = matches[2].str()[0];
-            int x2 = stoi(matches[3]);
-        }
-    }
-
 };
 
 int main() {
-    FILE *f;
-    fopen_s(&f, "equal-not-equal.in", "r");
-    ofstream out("equal-not-equal.out", ios_base::out);
+    ifstream in("equal-not-equal.in");
+    ofstream out("equal-not-equal.out");
 
     int n, m;
-
-    fscanf(f, "%d", &n);
-    fscanf(f, "%*c%d", &m);
+    in >> n >> m;
 
     DSU dsu(n + 2);
 
     for (int i = 0; i < m; i++) {
 
-        //Format: x1 == x2
-        fscanf(f, "\n%*c %d%*c", &a[i]);    // ignore "\n" and "x", then read "1" and ignore space
-        fscanf(f, "%c %*c%*c", &type[i]);   // read "=", then ignore second char from expression and space
-        fscanf(f, "%*c %d", &b[i]);         // ignore "x" and read "2"
+        char c;
+        in >> c >> a[i] >> type[i] >> c >> c >> b[i];
 
         if (type[i] == '=') {
             dsu.Union(b[i], a[i]);
@@ -94,7 +81,7 @@ int main() {
                 result = false;
                 break;
             }
-        } else {
+        } else if (type[i] == '!') {
             if (dsu.isConnected(a[i], b[i]) || dsu.isConnected(b[i], a[i])) {
                 result = false;
                 break;
@@ -104,6 +91,5 @@ int main() {
 
     out << (result ? "Yes" : "No") << endl;
 
-    out.close();
     return 0;
 }
