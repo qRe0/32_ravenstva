@@ -49,7 +49,7 @@ public:
         return FindSet(x) == FindSet(y);
     }
 
-    void processInput(const string &line) {
+    void parser(string &line) {
         regex pattern(R"(x(\d+)\s*([=!]+)\s*x(\d+))");
         smatch matches;
         if (regex_match(line, matches, pattern)) {
